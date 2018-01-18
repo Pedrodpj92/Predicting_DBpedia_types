@@ -65,6 +65,9 @@ salida_test25 <- cbind(validating_test25[,1],as.data.frame(test25))
 colnames(salida_test25) <- c("s","o")
 write.csv(salida_test25, file = "./output/data/approach1/test25/test25_rf.ttl", fileEncoding = "UTF-8", row.names=FALSE)
 
+###############
+#Deep Learning#
+###############
 
 
 dl_pruebaHojas_test25 <- h2o.deeplearning(
