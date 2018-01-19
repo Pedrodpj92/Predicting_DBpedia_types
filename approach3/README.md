@@ -1,4 +1,4 @@
-# Approach 3: ontology class hierarchy for type prediction
+# Approach 3: ontology class hierarchy for type prediction *on cascade*
 Approaches 2 and 3 are Local Classifiers Per Level (LCL), modified with extra binary models. 
 These binary models are aimed at solving the *partial depth
 problem*: to know, for each resource, which levels do not *produce* types. 
