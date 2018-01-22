@@ -10,7 +10,7 @@ h2o.init(
 
 
 df_training <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training.csv"), header = TRUE)
-df_validating <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_test.csv"), header = TRUE)
+df_validating <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_test1.csv"), header = TRUE)
 
 
 df_training_sinDesc_N2 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_knownResources_L2.csv"), header = TRUE)
