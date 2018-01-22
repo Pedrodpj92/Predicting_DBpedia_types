@@ -189,7 +189,7 @@ validation_dl <- h2o.cbind(validation_dl,test_n5_m1$predict)
 colnames(validation_dl)[ncol(validation_dl)] <- "Class5_Bin"
 
 #transform into table
-test <- cbind(as.data.frame(valid_test[,1]),     #1
+test <- cbind(as.data.frame(valid[,1]),     #1
                as.data.frame(test_n1$predict),    #2
                as.data.frame(test_n2_m1$predict), #3
                as.data.frame(test_n2_m4$predict), #4
@@ -396,7 +396,7 @@ validation_rf <- h2o.cbind(validation_rf,test_n5_m1_rf$predict)
 colnames(validation_rf)[ncol(validation_rf)] <- "Class5_Bin"
 
 #transform into table
-test_rf <- cbind(as.data.frame(valid_test[,1]),     #1
+test_rf <- cbind(as.data.frame(valid[,1]),     #1
                   as.data.frame(test_n1_rf$predict),    #2
                   as.data.frame(test_n2_m1_rf$predict), #3
                   as.data.frame(test_n2_m4_rf$predict), #4
