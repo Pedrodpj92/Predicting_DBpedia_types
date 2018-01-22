@@ -13,16 +13,14 @@ df_training <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1
 df_validating <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_test.csv"), header = TRUE)
 
 
-df_training_sinDesc_N2 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_sinDesc_N2.csv"), header = TRUE)
-df_validating_sinDesc_N2 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_sinDesc_N2.csv"), header = TRUE)
-df_training_sinDesc_N3 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_sinDesc_N3.csv"), header = TRUE)
-df_validating_sinDesc_N3 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_sinDesc_N3.csv"), header = TRUE)
-df_training_sinDesc_N4 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_sinDesc_N4.csv"), header = TRUE)
-df_validating_sinDesc_N4 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_sinDesc_N4.csv"), header = TRUE)
-df_training_sinDesc_N5 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_sinDesc_N5.csv"), header = TRUE)
-df_validating_sinDesc_N5 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_sinDesc_N5.csv"), header = TRUE)
-df_training_sinDesc_N6 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_sinDesc_N6.csv"), header = TRUE)
-df_validating_sinDesc_N6 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_sinDesc_N6.csv"), header = TRUE)
+df_training_sinDesc_N2 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_knownResources_L2.csv"), header = TRUE)
+df_validating_sinDesc_N2 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_knownResources_L2.csv"), header = TRUE)
+df_training_sinDesc_N3 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_knownResources_L3.csv"), header = TRUE)
+df_validating_sinDesc_N3 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_knownResources_L3.csv"), header = TRUE)
+df_training_sinDesc_N4 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_knownResources_L4.csv"), header = TRUE)
+df_validating_sinDesc_N4 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_knownResources_L4.csv"), header = TRUE)
+df_training_sinDesc_N5 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/training_knownResources_L5.csv"), header = TRUE)
+df_validating_sinDesc_N5 <- h2o.importFile(path = normalizePath("./data/approaches2and3/test1/validating_knownResources_L5.csv"), header = TRUE)
 
 train <- h2o.assign(df_training, "train.hex") 
 valid <- h2o.assign(df_validating, "valid.hex")
@@ -35,10 +33,6 @@ train_sinDesc_N4 <- h2o.assign(df_training_sinDesc_N4, "train_sinDesc_N4.hex")
 valid_sinDesc_N4 <- h2o.assign(df_validating_sinDesc_N4, "valid_sinDesc_N4.hex")
 train_sinDesc_N5 <- h2o.assign(df_training_sinDesc_N5, "train_sinDesc_N5.hex") 
 valid_sinDesc_N5 <- h2o.assign(df_validating_sinDesc_N5, "valid_sinDesc_N5.hex")
-train_sinDesc_N6 <- h2o.assign(df_training_sinDesc_N6, "train_sinDesc_N6.hex") 
-valid_sinDesc_N6 <- h2o.assign(df_validating_sinDesc_N6, "valid_sinDesc_N6.hex")
-
-
 
 
 ###############
@@ -156,7 +150,7 @@ h2o.saveModel(dl_n5_m4, path="./output/models/approach3/")
 
 
 #####predicción
-validation_dl <- valid_test[,1:(ncol(valid_test)-11)]
+validation_dl <- valid[,1:(ncol(valid)-11)]
 
 test_n1 <- h2o.predict(object = dl_n1, newdata = validation_dl[,2:(ncol(validation_dl))])
 validation_dl <- h2o.cbind(validation_dl,test_n1$predict)
@@ -363,7 +357,7 @@ h2o.saveModel(rf_n5_m4, path="./output/models/approach3/")
 
 
 #####predicción
-validation_rf <- valid_test[,1:(ncol(valid_test)-11)]
+validation_rf <- valid[,1:(ncol(valid)-11)]
 
 test_n1_rf <- h2o.predict(object = rf_n1, newdata = validation_rf[,2:(ncol(validation_rf))])
 validation_rf <- h2o.cbind(validation_rf,test_n1_rf$predict)
