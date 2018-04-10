@@ -1,32 +1,16 @@
 #evalua_completo.R
-#Este script junta el contenido de evaluaSDtypes_mediaRecursos.R evaluaSDtypes_hojas.R y evaluaSDtypes_porNiveles_Completo.R
-#En forma de funciones. 3 menores para cada subscript y uno general que llama a los tres
-#Recibe por parámetros los paths del conjunto generado y del conjunto reservado, así como un path de salida de csv
-#Saca una un data frame con todas las pruebas y admeás escribe un csv
-
-############
-##Funciones#
-############
-##evalua_normalYmedias
-#   > Parámetros de entrada:
-#     - pathDT_Generado: archivo con el path
-#   > Salida
-
-
-###NORMAL Y MEDIA
-
 
 evalua_generalAndMean <- function(pathDT_Generado, pathDT_Reservado){
   # library(sqldf)
   
   sdtypes_test_V3 <- read.csv(file=pathDT_Generado,
-                              header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                              header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   sdtypes_test_V3$V4 <- NULL
   names(sdtypes_test_V3) <- c("s","p","o")
   sdtypes_test_V3 <- sdtypes_test_V3[grep('^<http://dbpedia.org/ontology/',sdtypes_test_V3$o),]
   
   tiposReservados_test_V3 <- read.csv(file=pathDT_Reservado,
-                                      header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                                      header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   tiposReservados_test_V3$V4 <- NULL
   colnames(tiposReservados_test_V3) <- c("s","p","o")
   tiposReservados_test_V3 <- tiposReservados_test_V3[grep('^<http://dbpedia.org/ontology/',tiposReservados_test_V3$o),]
@@ -53,14 +37,6 @@ evalua_generalAndMean <- function(pathDT_Generado, pathDT_Reservado){
   
   recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
   
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  # 
-  # tiposExtra <- sqldf("SELECT resultados_test.s, resultados_test.o FROM resultados_test, tiposReservados_test WHERE resultados_test.s == tiposReservados_test.s GROUP BY resultados_test.s, resultados_test.o")
-  # tiposExtra <- sqldf("SELECT * FROM tiposExtra EXCEPT SELECT * FROM tiposReservados_test")
-  # 
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  # 
   metrica_precision_normal <- nrow(aciertos_test)/nrow(aciertos_recursos_test)*100
   metrica_recall_normal <- nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100
   metrica_Fmeasure_normal <- 2*((metrica_precision_normal*metrica_recall_normal)/(metrica_precision_normal+metrica_recall_normal))
@@ -120,15 +96,15 @@ evalua_generalAndMean <- function(pathDT_Generado, pathDT_Reservado){
 
 
 evalua_leaves <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
-  # library(sqldf)
+  
   sdtypes_test_V3 <- read.csv(file=pathDT_Generado,
-                              header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                              header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   sdtypes_test_V3$V4 <- NULL
   colnames(sdtypes_test_V3) <- c("s","p","o")
   sdtypes_test_V3 <- sdtypes_test_V3[grep('^<http://dbpedia.org/ontology/',sdtypes_test_V3$o),]
   
   tiposReservados_test_V3 <- read.csv(file=pathDT_Reservado,
-                                      header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                                      header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   tiposReservados_test_V3$V4 <- NULL
   colnames(tiposReservados_test_V3) <- c("s","p","o")
   tiposReservados_test_V3 <- tiposReservados_test_V3[grep('^<http://dbpedia.org/ontology/',tiposReservados_test_V3$o),]
@@ -160,8 +136,7 @@ evalua_leaves <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   aciertos_recursos_test <- resultados_test[resultados_test$s %in% tiposReservados_test$s,]
   
   #cogiendo solo hojas
-  #PARA ACIERTOS DE RECURSOS
-  soloNivel6 <- aciertos_recursos_test[aciertos_recursos_test$o %in% nivel6$nivel6, ] #con los datos actuales debería dar vacío
+  soloNivel6 <- aciertos_recursos_test[aciertos_recursos_test$o %in% nivel6$nivel6, ]
   
   soloNivel5 <- aciertos_recursos_test[aciertos_recursos_test$o %in% nivel5$nivel5, ]
   soloNivel5 <- soloNivel5[!(soloNivel5$s %in% soloNivel6$s), ]
@@ -193,7 +168,7 @@ evalua_leaves <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   hojas_aciertos_recursos_test <- rbind(soloNivel1, soloNivel2, soloNivel3, soloNivel4, soloNivel5, soloNivel6)
   
   #PARA RECURSOS RESERVADOS
-  soloNivel6 <- tiposReservados_test[tiposReservados_test$o %in% nivel6$nivel6, ] #con los datos actuales debería dar vacío
+  soloNivel6 <- tiposReservados_test[tiposReservados_test$o %in% nivel6$nivel6, ]
   
   soloNivel5 <- tiposReservados_test[tiposReservados_test$o %in% nivel5$nivel5, ]
   soloNivel5 <- soloNivel5[!(soloNivel5$s %in% soloNivel6$s), ]
@@ -239,15 +214,6 @@ evalua_leaves <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   
   recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
   
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  # 
-  # tiposExtra <- sqldf("SELECT resultados_test.s, resultados_test.o FROM resultados_test, tiposReservados_test WHERE resultados_test.s == tiposReservados_test.s GROUP BY resultados_test.s, resultados_test.o")
-  # tiposExtra <- sqldf("SELECT * FROM tiposExtra EXCEPT SELECT * FROM tiposReservados_test")
-  # 
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  # 
-  #operaciones para no tener que hacerlas a mano dividiendo
   metrica_precision <- nrow(aciertos_test)/nrow(hojas_aciertos_recursos_test)*100
   metrica_recall <- nrow(aciertos_test)/nrow(hojas_tiposReservados_test)*100
   metrica_Fmeasure <- 2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall))
@@ -275,16 +241,14 @@ evalua_leaves <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
 
 
 evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
-  #Mejora para cuando se pueda depurar: Agrupar los niveles en un bucle, para no tener problemas con los nombres de los
-  #archivos de niveles, introducirlos en un vector de strings y que en el bucle lo recorra
   sdtypes_test_V3 <- read.csv(file=pathDT_Generado,
-                              header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                              header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   sdtypes_test_V3$V4 <- NULL
   names(sdtypes_test_V3) <- c("s","p","o")
   sdtypes_test_V3 <- sdtypes_test_V3[grep('^<http://dbpedia.org/ontology/',sdtypes_test_V3$o),]
   
   tiposReservados_test_V3 <- read.csv(file=pathDT_Reservado,
-                                      header=FALSE, sep=",", encoding = "UTF-8", stringsAsFactors = FALSE)
+                                      header=FALSE, sep=" ", encoding = "UTF-8", stringsAsFactors = FALSE)
   tiposReservados_test_V3$V4 <- NULL
   colnames(tiposReservados_test_V3) <- c("s","p","o")
   tiposReservados_test_V3 <- tiposReservados_test_V3[grep('^<http://dbpedia.org/ontology/',tiposReservados_test_V3$o),]
@@ -302,7 +266,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   nivel6 <- read.csv(file=paste(pathNiveles,"nivel6.csv",sep=""),
                      header=TRUE, sep=" ", encoding = "UTF-8")
   
-  # guardaOriginal_types <- original_types
   guardaSdtypes_test_V3 <- sdtypes_test_V3
   guardaTiposReservados_test_V3 <-tiposReservados_test_V3
   
@@ -319,7 +282,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   #########
   
   #zona de preparacion de niveles
-  # original_types <- original_types[original_types$o %in% nivel1$nivel1,]
   sdtypes_test_V3 <- sdtypes_test_V3[sdtypes_test_V3$o %in% nivel1$nivel1,]
   tiposReservados_test_V3 <- tiposReservados_test_V3[tiposReservados_test_V3$o %in% nivel1$nivel1,]
   
@@ -344,13 +306,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   names(groupby_Recursos_acertados) <- c("s", "Freq")
   groupby_Recursos_acertados$s <- as.character(groupby_Recursos_acertados$s)
   
-  # recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
-  
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  
   metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
   metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
   metrica_Fmeasure <- round(2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall)),2)
@@ -358,7 +313,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   resultados <- rbind(resultados,c("Level1",metrica_precision,metrica_recall,metrica_Fmeasure))
   
   #restaura datos sin sesgar por niveles
-  # original_types <- guardaOriginal_types
   sdtypes_test_V3 <- guardaSdtypes_test_V3
   tiposReservados_test_V3 <- guardaTiposReservados_test_V3
   
@@ -367,8 +321,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   #NIVEL 2#
   #########
   
-  #zona de preparacion de niveles
-  # original_types <- original_types[original_types$o %in% nivel2$nivel2,]
   sdtypes_test_V3 <- sdtypes_test_V3[sdtypes_test_V3$o %in% nivel2$nivel2,]
   tiposReservados_test_V3 <- tiposReservados_test_V3[tiposReservados_test_V3$o %in% nivel2$nivel2,]
   
@@ -377,7 +329,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   groupby_RecursosReservados <- data.frame(table(tiposReservados_test_V3$s))
   
   tiposReservados_test <- tiposReservados_test_V3[,c(1,3)]
-  # tiposReservados_test <- tiposReservados_test_V3[,c(1,2)]
   resultados_test <- sdtypes_test_V3[,c(1,3)]
   
   aciertos_recursos_test <- resultados_test[resultados_test$s %in% tiposReservados_test$s,]
@@ -397,11 +348,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   
   recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
   
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  
   metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
   metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
   metrica_Fmeasure <- round(2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall)),2)
@@ -409,7 +355,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   resultados <- rbind(resultados,c("Level2",metrica_precision,metrica_recall,metrica_Fmeasure))
   
   #restaura datos sin sesgar por niveles
-  # original_types <- guardaOriginal_types
   sdtypes_test_V3 <- guardaSdtypes_test_V3
   tiposReservados_test_V3 <- guardaTiposReservados_test_V3
   
@@ -418,7 +363,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   #########
   
   #zona de preparacion de niveles
-  # original_types <- original_types[original_types$o %in% nivel3$nivel3,]
   sdtypes_test_V3 <- sdtypes_test_V3[sdtypes_test_V3$o %in% nivel3$nivel3,]
   tiposReservados_test_V3 <- tiposReservados_test_V3[tiposReservados_test_V3$o %in% nivel3$nivel3,]
   
@@ -446,11 +390,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   
   recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
   
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  
   metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
   metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
   metrica_Fmeasure <- round(2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall)),2)
@@ -458,7 +397,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   resultados <- rbind(resultados,c("Level3",metrica_precision,metrica_recall,metrica_Fmeasure))
   
   #restaura datos sin sesgar por niveles
-  # original_types <- guardaOriginal_types
   sdtypes_test_V3 <- guardaSdtypes_test_V3
   tiposReservados_test_V3 <- guardaTiposReservados_test_V3
   
@@ -468,7 +406,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   #########
   
   #zona de preparacion de niveles
-  # original_types <- original_types[original_types$o %in% nivel4$nivel4,]
   sdtypes_test_V3 <- sdtypes_test_V3[sdtypes_test_V3$o %in% nivel4$nivel4,]
   tiposReservados_test_V3 <- tiposReservados_test_V3[tiposReservados_test_V3$o %in% nivel4$nivel4,]
   
@@ -495,11 +432,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   
   recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
   
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  
   #operaciones para no tener que hacerlas a mano dividiendo
   metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
   metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
@@ -508,7 +440,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   resultados <- rbind(resultados,c("Level4",metrica_precision,metrica_recall,metrica_Fmeasure))
   
   #restaura datos sin sesgar por niveles
-  ## original_types <- guardaOriginal_types
   sdtypes_test_V3 <- guardaSdtypes_test_V3
   tiposReservados_test_V3 <- guardaTiposReservados_test_V3
   
@@ -518,7 +449,6 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   #########
   
   #zona de preparacion de niveles
-  ## original_types <- original_types[original_types$o %in% nivel5$nivel5,]
   sdtypes_test_V3 <- sdtypes_test_V3[sdtypes_test_V3$o %in% nivel5$nivel5,]
   tiposReservados_test_V3 <- tiposReservados_test_V3[tiposReservados_test_V3$o %in% nivel5$nivel5,]
   
@@ -541,32 +471,26 @@ evalua_levels <- function(pathDT_Generado, pathDT_Reservado, pathNiveles){
   
   names(groupby_RecursosReservados) <- c("s", "Freq")
   groupby_RecursosReservados$s <- as.character(groupby_RecursosReservados$s)
-  # if(length(groupby_Recursos_acertados)>1){
-  names(groupby_Recursos_acertados) <- c("s", "Freq")
-  groupby_Recursos_acertados$s <- as.character(groupby_Recursos_acertados$s)
-  
-  recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
-  
-  # tipos_RecursosFallados <- sqldf("SELECT tiposReservados_test.s, tiposReservados_test.o FROM tiposReservados_test, recursos_fallados WHERE tiposReservados_test.s == recursos_fallados.s")
-  #
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM aciertos_recursos_test EXCEPT SELECT * FROM aciertos_test")
-  # tipos_Fallados_RecursosAcertados <- sqldf("SELECT * FROM tipos_Fallados_RecursosAcertados EXCEPT SELECT * FROM tiposExtra")
-  #
-  metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
-  metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
-  metrica_Fmeasure <- round(2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall)),2)
-  
-  resultados <- rbind(resultados,c("Level5",metrica_precision,metrica_recall,metrica_Fmeasure))
-  
-  #restaura datos sin sesgar por niveles
-  # original_types <- guardaOriginal_types
-  sdtypes_test_V3 <- guardaSdtypes_test_V3
-  tiposReservados_test_V3 <- guardaTiposReservados_test_V3
-  
-  resultados$precision <-as.numeric(resultados$precision)
-  resultados$recall <-as.numeric(resultados$recall)
-  resultados$fmeasure <-as.numeric(resultados$fmeasure)
-  # }
+  if(length(groupby_Recursos_acertados)>1){
+    names(groupby_Recursos_acertados) <- c("s", "Freq")
+    groupby_Recursos_acertados$s <- as.character(groupby_Recursos_acertados$s)
+    
+    recursos_fallados <- groupby_RecursosReservados[!(groupby_RecursosReservados$s %in% groupby_Recursos_acertados$s), ]
+    
+    metrica_precision <- round(nrow(aciertos_test)/nrow(aciertos_recursos_test)*100,2)
+    metrica_recall <- round(nrow(aciertos_test)/nrow(tiposReservados_test_V3)*100,2)
+    metrica_Fmeasure <- round(2*((metrica_precision*metrica_recall)/(metrica_precision+metrica_recall)),2)
+    
+    resultados <- rbind(resultados,c("Level5",metrica_precision,metrica_recall,metrica_Fmeasure))
+    
+    #restaura datos sin sesgar por niveles
+    sdtypes_test_V3 <- guardaSdtypes_test_V3
+    tiposReservados_test_V3 <- guardaTiposReservados_test_V3
+    
+    resultados$precision <-as.numeric(resultados$precision)
+    resultados$recall <-as.numeric(resultados$recall)
+    resultados$fmeasure <-as.numeric(resultados$fmeasure)
+  }
   return (resultados)
 }
 
@@ -602,6 +526,35 @@ evalua_completo <- function(pathDT_GeneradoCompleto, pathDT_ReservadoCompleto, p
               fileEncoding = "UTF-8", row.names=FALSE, quote = FALSE, sep = ",")
   
   return(resultados)
+}
+
+
+#funciones especiales para calcular las medias y desviaciones típicas de un conjunto de evaluaciones
+
+calcula_media_matrices <- function(list_DT){
+  large.list <- list_DT
+  vec <- unlist(large.list, use.names = FALSE)
+  DIM <- dim(large.list[[1]])
+  n <- length(large.list)
+  
+  list.mean <- tapply(vec, rep(1:prod(DIM),times = n), mean)
+  attr(list.mean, "dim") <- DIM
+  list.mean <- as.data.frame(list.mean)
+  
+  return(list.mean)
+}
+
+calcula_sd_matrices <- function(list_DT){
+  large.list <- list_DT
+  vec <- unlist(large.list, use.names = FALSE)
+  DIM <- dim(large.list[[1]])
+  n <- length(large.list)
+  
+  list.sd <- tapply(vec, rep(1:prod(DIM),times = n), sd)
+  attr(list.sd, "dim") <- DIM
+  list.sd <- as.data.frame(list.sd)
+  
+  return(list.sd)
 }
 
 
