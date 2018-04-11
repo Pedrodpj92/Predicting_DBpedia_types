@@ -41,9 +41,9 @@ app1_nb <- function(semilla, pathInput, pathOutput, pathOutputModel, nameOutputF
   salida_test$p <- "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
   salida_test[,c(1,2,3)] <- salida_test[,c(1,3,2)]
   colnames(salida_test) <- c("s","p","o")
-  
+  salida_test$punto <- "."
   write.table(salida_test, file = paste(pathOutput,nameOutputFile,"_nb.ttl",sep=''),
-              fileEncoding = "UTF-8", sep = " ", row.names=FALSE, col.names = FALSE)
+              fileEncoding = "UTF-8", sep = " ", row.names=FALSE, col.names = FALSE, quote = FALSE)
   
   return(0)
   
@@ -89,9 +89,9 @@ app1_dl <- function(semilla, pathInput, pathOutput, pathOutputModel, nameOutputF
   salida_test$p <- "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
   salida_test[,c(1,2,3)] <- salida_test[,c(1,3,2)]
   colnames(salida_test) <- c("s","p","o")
-  
+  salida_test$punto <- "."
   write.table(salida_test, file = paste(pathOutput,nameOutputFile,"_dl.ttl",sep=''),
-              fileEncoding = "UTF-8", sep = " ", row.names=FALSE, col.names = FALSE)
+              fileEncoding = "UTF-8", sep = " ", row.names=FALSE, col.names = FALSE, quote = FALSE)
   
   return(0)
   
