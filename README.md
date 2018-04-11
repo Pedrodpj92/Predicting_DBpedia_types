@@ -13,7 +13,7 @@ Clone or download the source code into your machine. Heed next section to find l
 * [C5.0 R library](https://cran.r-project.org/web/packages/C50/C50.pdf) version 0.1.0-24 or later
 * [optparse](https://cran.r-project.org/web/packages/optparse/optparse.pdf) version 1.4.4 or later
 * 64-bits machine
-**other dependencies...**
+* **other dependencies...**
 * [RCurl](https://cran.r-project.org/web/packages/RCurl/RCurl.pdf) version 1.95-4.8 or later
 * [jsonlite](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf) version 1.5 or later
  
@@ -48,7 +48,6 @@ install.packages(url_h2o, repos=NULL, type="source")
 url_c50 <- "https://cran.r-project.org/src/contrib/Archive/C50/C50_0.1.0-24.tar.gz"
 install.packages(url_c50, repos=NULL, type="source")
 ```
-C50_0.1.0-24    h2o_3.15.0.4058 optparse_1.4.4 
  
 ## Running experiments
 Navigate with your prompt to source folder and execute -h or --help to see options. Use RScript command if you are under Windows (**watch out with PATH configuration**)
