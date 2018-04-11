@@ -51,7 +51,9 @@ opt_parser <- OptionParser(usage = "Usage: %prog <options>",
                            this software provides the posibility of reproduce experiments showed in paper \"Inferring new types on large datasets applying ontology class hierarchy classifiers: the DBpedia case\"
                            (currently under review at ISWC2018)",
                            epilogue = "Examples:
+                             -> using multilevel approach (2) with Random Forest algorithm and fiveFold test. Check out input folder is the first path showed with -i flag and generated files will be located at second path, as -o flag shows. Look for files with 'output_ap2_5f_execution1' to find related outputs with your experiment.
                            %prog -a multilevel_ap2 -l RF -t fiveFold -i /home/myExperiments/aboutDBpedia_hierarchyClasssifiers/approach2/crossValidation/ -o /home/myExperiments/aboutDBpedia_hierarchyClasssifiers/approach2/crossValidation/output/ -f output_ap2_5f_execution1
+                             -> using cascade approach (3) with Deep Learning algorithm and test 25 (resources with at least 25 ingoing properties). Watch out in this example where related paths are used instance of absolute paths. 
                            %prog -a cascade_ap3 -l DL -t test25 -i ./data/ap3/t25/ -o ./output/ap3_t25/ -f out_ap3_t25_execution7",
                            option_list=option_list)
 
