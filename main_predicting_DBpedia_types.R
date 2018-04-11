@@ -48,7 +48,7 @@ option_list <- list(
 
 opt_parser <- OptionParser(usage = "Usage: %prog <options>",
                            description = "Description:
-                           this software provides the posibility of reproduce experiments showed in paper \"Inferring new types on large datasets applying ontology class hierarchy classifiers: the DBpedia case\"
+                           this software provides the possibility of reproduce experiments showed in paper \"Inferring new types on large datasets applying ontology class hierarchy classifiers: the DBpedia case\"
                            (currently under review at ISWC2018)",
                            epilogue = "Examples:
                              -> using multilevel approach (2) with Random Forest algorithm and fiveFold test. Check out input folder is the first path showed with -i flag and generated files will be located at second path, as -o flag shows. Look for files with 'output_ap2_5f_execution1' to find related outputs with your experiment.
