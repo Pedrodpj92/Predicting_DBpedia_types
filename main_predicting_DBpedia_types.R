@@ -105,7 +105,7 @@ if(opt$test %in% c("test1")){
   vl_seleccionado <- "validating_test10.csv"
 }else if(opt$test %in% c("test25")){
   vl_seleccionado <- "validating_test25.csv"
-}else if(opt$set %in% c("fiveFold")){
+}else if(opt$test %in% c("fiveFold")){
   vl_seleccionado <- "fiveFoldDummyvariable"
 }else{
   print_help(opt_parser)
@@ -122,7 +122,7 @@ vl_l4_1 <- "validating_knownResources_L4.csv"
 tr_l5_1 <- "training_knownResources_L5.csv"
 vl_l5_1 <- "validating_knownResources_L5.csv"
 
-#java -jar ../../dbotypes.jar ../../dbpedia_3.9.owl test1_dl.ttl
+
 if(!(opt$test %in% c("fiveFold"))){
   if(opt$approach %in% c("global_ap1")){
     if(opt$algorithm %in% c("NB")){
@@ -143,7 +143,6 @@ if(!(opt$test %in% c("fiveFold"))){
                       pathSalida = paste(opt$pathOut,
                                          "evaluation_",
                                          opt$fileOut,".csv",sep = ""))
-      
     }else if(opt$algorithm %in% c("DL")){
       app1_dl(semilla = opt$seed,
               pathInput = opt$pathIn,
@@ -204,7 +203,6 @@ if(!(opt$test %in% c("fiveFold"))){
                       pathSalida = paste(opt$pathOut,
                                          "evaluation_",
                                          opt$fileOut,".csv",sep = ""))
-      
     }else if(opt$algorithm %in% c("DL")){
       app2_DL(semilla = opt$seed,
               pathInput = opt$pathIn,
@@ -319,8 +317,8 @@ if(!(opt$test %in% c("fiveFold"))){
                                          opt$fileOut,".csv",sep = ""))
     }
   }else if(opt$algorithm %in% c("DL")){
-    dir.create(paste(opt$pathOut,folders[i],sep=""))
     for(i in 1:length(folders)){
+      dir.create(paste(opt$pathOut,folders[i],sep=""))
       app2_DL(semilla = opt$seed,
               pathInput = paste(opt$pathIn,folders[i],sep=""),
               pathOutputModel = paste(opt$pathOut,folders[i],sep=""),
@@ -341,8 +339,9 @@ if(!(opt$test %in% c("fiveFold"))){
                                          opt$fileOut,".csv",sep = ""))
     }
   }else if(opt$algorithm %in% c("RF")){
-    dir.create(paste(opt$pathOut,folders[i],sep=""))
+    
     for(i in 1:length(folders)){
+      dir.create(paste(opt$pathOut,folders[i],sep=""))
       app2_RF(semilla = opt$seed,
               pathInput = paste(opt$pathIn,folders[i],sep=""),
               pathOutputModel = paste(opt$pathOut,folders[i],sep=""),
