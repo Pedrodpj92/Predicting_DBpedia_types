@@ -13,7 +13,9 @@ Clone or download the source code into your machine. Heed next section to find l
 * [C5.0 R library](https://cran.r-project.org/web/packages/C50/C50.pdf) version 0.1.0-24 or later
 * [optparse](https://cran.r-project.org/web/packages/optparse/optparse.pdf) version 1.4.4 or later
 * 64-bits machine
-* **other dependencies...**
+
+
+**other dependencies...**
 * [RCurl](https://cran.r-project.org/web/packages/RCurl/RCurl.pdf) version 1.95-4.8 or later
 * [jsonlite](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf) version 1.5 or later
  
