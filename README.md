@@ -15,7 +15,7 @@ Clone or download the source code into your machine. Heed next section to find l
 * 64-bits machine
 
 
-**other dependencies...**
+other dependencies...
 * [RCurl](https://cran.r-project.org/web/packages/RCurl/RCurl.pdf) version 1.95-4.8 or later
 * [jsonlite](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf) version 1.5 or later
  
