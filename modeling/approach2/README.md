@@ -9,4 +9,4 @@ the resource.
 The approach 2 was named *multilevel* because we have models
 for each ontology class level. For this approach we used 5.0, an improved version of C4.5, Random Forest and Deep Learning (multi-layer feedforward)
 
-<img src="http://es-ta.linkeddata.es/app2training.png" width="1200">
+<img src="http://es-ta.linkeddata.es/app2training_v2.png" width="1200">
