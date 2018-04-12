@@ -12,4 +12,4 @@ As shown in the figure, for resource Cervantes we have type Writer and for resou
 these are their most specific types.
 In this approach we have used 3 different training methods: Naïve Bayes, Random Forest and Deep Learning (multi-layer feedforward).
 
-<img src="http://es-ta.linkeddata.es/app1training.png" width="700">
+<img src="http://es-ta.linkeddata.es/app1training_v2.png" width="700">
