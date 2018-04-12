@@ -7,7 +7,6 @@ There are 11 models, 6 of them are multi-class, and the remaining 5 are binary m
 type for that level. The binary models predict if the type should be assigned to
 the resource.
 The approach 2 was named *multilevel* because we have models
-for each ontology class level. For this approach we used only one training method:
-C5.0, an improved version of C4.5.
+for each ontology class level. For this approach we used 5.0, an improved version of C4.5, Random Forest and Deep Learning (multi-layer feedforward)
 
 <img src="http://es-ta.linkeddata.es/app2training.png" width="1200">
