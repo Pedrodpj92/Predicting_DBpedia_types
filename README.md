@@ -1,9 +1,9 @@
 # Predicting DBpedia types
 
-This project contains the source code of the set of models for inferrying new types on DBpedia 3.9, exploiting its class hierarchy. The main script (main_predicting_DBpedia_types.R) allows to reproduce several experiments carried out. Check out http://es-ta.linkeddata.es/ to explore details and download data to test experiments.
+This project contains the source code of the set of models for inferrying new types on DBpedia 3.9, exploiting its class hierarchy. The main script (main_predicting_DBpedia_types.R) allows to reproduce the experiments carried out. Check out http://es-ta.linkeddata.es/ to explore details and download data to test experiments.
 
 ## Getting Started
-Clone or download the source code into your machine. Heed next section to find libraries and software used and how to install. 
+Clone or download the source code into your machine. Check next section to find libraries and software used and how to install them. 
 
 ### Prerequisites
 
@@ -20,7 +20,7 @@ other dependencies...
 * [jsonlite](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf) version 1.5 or later
  
 ### Installing R packages
-We recommend search last stable versions, but here you will find both last stable and what we used in Machine Learning(ML) libraries.
+We recommend to search last stable versions, but here you will find both last stable and the ones used in Machine Learning(ML) libraries.
 * Main common libraries and dependencies
 ```
 #http://docs.h2o.ai/h2o/latest-stable/h2o-docs/faq/r.html
@@ -52,7 +52,7 @@ install.packages(url_c50, repos=NULL, type="source")
 ```
  
 ## Running experiments
-Navigate with your prompt to source folder and execute -h or --help to see options. Use RScript command if you are under Windows (**watch out with PATH configuration**)
+Using your CLI, navigate to source folder and execute -h or --help to see the available options. Use RScript command when using Windows (**mind your PATH configuration**)
 ```
 ./main_predicting_DBpedia_types.R --help
 Usage: ./main_predicting_DBpedia_types.R <options>
