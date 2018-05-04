@@ -37,7 +37,7 @@ if (! ("optparse" %in% rownames(installed.packages()))) { install.packages("optp
 
 * Last ML versions
 ```
-install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R)))
+install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")))
 
 if (! ("C50" %in% rownames(installed.packages()))) { install.packages("C5.0") }
 ```
